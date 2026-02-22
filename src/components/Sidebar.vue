@@ -11,9 +11,12 @@ const ikone = {
 </script>
 
 <template>
-  <nav class="rounded-2xl bg-white shadow-sm p-4 h-full sm:h-[95vh]">
+  <nav
+    class="bg-white shadow-sm p-4 min-h-screen hidden md:flex flex-col"
+    aria-label="Sidebar navigation"
+  >
     <div class="mb-4 text-lg font-semibold flex flex-row items-center">
-      <img src="../assets/images/flippet.png" class="w-2/10 sm:w-5/10" />
+      <img src="../assets/images/flippet.png" class="w-1/5 md:w-1/2" />
     </div>
 
     <ul class="space-y-1">
