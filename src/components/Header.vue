@@ -29,18 +29,21 @@ const ikone = {
             v-model="searchInput"
             type="text"
             name="searchCollections"
-            class="bg-white/10 text-white placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-indigo-400/60"
+            class="bg-white/10 text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
             placeholder="Search..."
           />
         </div>
       </div>
 
       <div class="flex-1 flex justify-end">
-        <a href="#" class="rounded-xl px-3 py-2 hover:bg-slate-200 hover:text-indigo-900 hidden"
+        <a href="#" class="rounded-xl px-3 py-2 hover:bg-slate-200 hover:text-neutral-800 hidden"
           ><v-icon name="hi-user-circle" scale="2" />
         </a>
-        <span class="me-2 cursor-pointer">Register /</span
-        ><span class="cursor-pointer">Log in</span>
+        <button
+          class="cursor-pointer me-2 bg-slate-200 text-neutral-800 hover:bg-white/10 hover:text-slate-200 px-6 py-3 font-semibold"
+        >
+          Log in
+        </button>
       </div>
     </div>
     <div class="flex flex-col w-full lg:hidden">
@@ -55,7 +58,7 @@ const ikone = {
             @click="open = false"
             type="text"
             name="searchCollections"
-            class="bg-white/10 text-white placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-indigo-400/60"
+            class="bg-white/10 text-white placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
             placeholder="Search..."
           />
         </div>
@@ -68,7 +71,7 @@ const ikone = {
       <ul
         v-show="open"
         @click="open = false"
-        class="flex flex-col mt-4 gap-2 w-full bg-slate-50 text-indigo-950 text-xl rounded-xl p-2"
+        class="flex flex-col mt-4 gap-2 w-full bg-slate-50 text-neutral-800 text-xl rounded-xl p-2"
       >
         <li>
           <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
@@ -92,7 +95,7 @@ const ikone = {
           <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"> My collections </a>
         </li>
         <li class="">
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200 hover:text-indigo-900"
+          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200 hover:text-neutral-800"
             ><v-icon name="hi-user-circle" scale="1.2" /><span class="ms-2">Profile</span>
           </a>
         </li>
