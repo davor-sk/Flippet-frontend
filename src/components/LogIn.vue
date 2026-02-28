@@ -21,6 +21,7 @@ const password = ref('')
             name="email"
             class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 mb-6 border-b-4"
             placeholder="Email address"
+            required
           />
           <input
             type="password"
@@ -28,6 +29,7 @@ const password = ref('')
             name="password"
             class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4 mb-6"
             placeholder="Password"
+            required
           />
           <button
             type="submit"

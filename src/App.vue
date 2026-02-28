@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
 import Home from './components/Home.vue'
 import LogIn from './components/LogIn.vue'
+import Register from './components/Register.vue'
 </script>
 
 <template>
@@ -12,7 +13,8 @@ import LogIn from './components/LogIn.vue'
       <div class="md:col-span-4 xl:col-span-5">
         <Header />
         <Home class="hidden" />
-        <LogIn />
+        <LogIn class="hidden" />
+        <Register />
       </div>
     </div>
   </div>
