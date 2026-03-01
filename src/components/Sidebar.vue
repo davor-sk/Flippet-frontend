@@ -1,6 +1,7 @@
 <script setup>
 import { addIcons } from 'oh-vue-icons'
 import { CoHome, CoPencil, LaSchoolSolid } from 'oh-vue-icons/icons'
+import { RouterLink } from 'vue-router'
 addIcons(CoHome, CoPencil, LaSchoolSolid)
 
 const ikone = {
@@ -21,21 +22,25 @@ const ikone = {
 
     <ul class="space-y-1">
       <li>
-        <a href="#" class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+        <RouterLink to="/" class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
           ><v-icon name="co-home" /> Home
-        </a>
+        </RouterLink>
       </li>
 
       <li>
-        <a href="#" class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+        <RouterLink
+          to="/create"
+          class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
           ><v-icon name="co-pencil" /> Create
-        </a>
+        </RouterLink>
       </li>
 
       <li>
-        <a href="#" class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+        <RouterLink
+          to="/study"
+          class="block rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
           ><v-icon name="la-school-solid" /> Study
-        </a>
+        </RouterLink>
       </li>
 
       <li class="pt-2 mt-2 border-t border-slate-200/70">
@@ -46,3 +51,9 @@ const ikone = {
     </ul>
   </nav>
 </template>
+
+<style scoped>
+a.router-link-exact-active {
+  color: #94a3b8;
+}
+</style>

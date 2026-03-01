@@ -1,9 +1,7 @@
 <script setup>
+import { RouterView } from 'vue-router'
 import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
-import Home from './components/Home.vue'
-import LogIn from './components/LogIn.vue'
-import Register from './components/Register.vue'
 </script>
 
 <template>
@@ -12,9 +10,7 @@ import Register from './components/Register.vue'
       <div class="md:col-span-2 xl:col-span-1"><Sidebar /></div>
       <div class="md:col-span-4 xl:col-span-5">
         <Header />
-        <Home class="hidden" />
-        <LogIn class="hidden" />
-        <Register />
+        <RouterView />
       </div>
     </div>
   </div>

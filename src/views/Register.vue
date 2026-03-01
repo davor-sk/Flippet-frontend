@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import axios from 'axios'
 
 const first_name = ref('')
 const last_name = ref('')
@@ -41,7 +42,7 @@ function handleSubmit(e) {
         Welcome!
       </h4>
       <div class="w-full p-2">
-        <form method="POST" action="#" @submit="handleSubmit">
+        <form @submit="handleSubmit">
           <input
             type="text"
             v-model="first_name"

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
@@ -14,7 +15,7 @@ const password = ref('')
         Welcome Back!
       </h4>
       <div class="w-full p-2">
-        <form method="POST">
+        <form @submit.prevent="handleLogin">
           <input
             type="email"
             v-model="email"
@@ -37,13 +38,13 @@ const password = ref('')
           >
             Log In
           </button>
-          <button
-            type="button"
-            class="cursor-pointer me-2 bg-white/10 text-neutral-300 hover:bg-white/30 hover:text-slate-200 px-5 py-2 font-semibold rounded-2xl w-full hover:ring-1 hover:border-white/30"
-          >
-            New to Flippet? Create an account
-          </button>
         </form>
+        <RouterLink
+          to="/register"
+          class="block cursor-pointer me-2 bg-white/10 text-center text-neutral-300 hover:bg-white/30 hover:text-slate-200 px-5 py-2 font-semibold rounded-2xl w-full hover:ring-1 hover:border-white/30"
+        >
+          New to Flippet? Create an account
+        </RouterLink>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 <script setup>
 import { addIcons } from 'oh-vue-icons'
 import { HiUserCircle, FaSearch, CoHamburgerMenu } from 'oh-vue-icons/icons'
+import { RouterLink } from 'vue-router'
 addIcons(HiUserCircle, FaSearch, CoHamburgerMenu)
 import { ref } from 'vue'
 
@@ -39,11 +40,12 @@ const ikone = {
         <a href="#" class="rounded-xl px-3 py-2 hover:bg-slate-200 hover:text-neutral-800 hidden"
           ><v-icon name="hi-user-circle" scale="2" />
         </a>
-        <button
+        <RouterLink
+          to="/login"
           class="cursor-pointer me-2 bg-slate-200 text-neutral-800 hover:bg-white/10 hover:text-slate-200 px-6 py-3 font-semibold"
         >
           Log in
-        </button>
+        </RouterLink>
       </div>
     </div>
     <div class="flex flex-col w-full lg:hidden">
@@ -74,32 +76,38 @@ const ikone = {
         class="flex flex-col mt-4 gap-2 w-full bg-slate-50 text-neutral-800 text-xl rounded-xl p-2"
       >
         <li>
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
+          <RouterLink to="/" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
             ><v-icon name="co-home" scale="1.2" /><span class="ms-2"> Home</span>
-          </a>
+          </RouterLink>
         </li>
 
         <li>
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
+          <RouterLink to="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
             ><v-icon name="co-pencil" scale="1.2" /><span class="ms-2"> Create</span>
-          </a>
+          </RouterLink>
         </li>
 
         <li>
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
+          <RouterLink to="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"
             ><v-icon name="la-school-solid" scale="1.2" /><span class="ms-2"> Study</span>
-          </a>
+          </RouterLink>
         </li>
 
         <li class="pt-2 mt-2 border-t border-slate-200/70 dark:border-slate-800">
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200"> My collections </a>
+          <RouterLink to="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200">
+            My collections
+          </RouterLink>
         </li>
         <li class="">
-          <a href="#" class="block rounded-xl px-3 py-1 hover:bg-slate-200 hover:text-neutral-800"
+          <RouterLink
+            to="#"
+            class="block rounded-xl px-3 py-1 hover:bg-slate-200 hover:text-neutral-800"
             ><v-icon name="hi-user-circle" scale="1.2" /><span class="ms-2">Profile</span>
-          </a>
+          </RouterLink>
         </li>
       </ul>
     </div>
   </nav>
 </template>
+
+<style scoped></style>
