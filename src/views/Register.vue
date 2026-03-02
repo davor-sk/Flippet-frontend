@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
-import axios from 'axios'
+import { useAuthStore } from '@/stores/authStore.js'
+
+const authStore = useAuthStore()
 
 const first_name = ref('')
 const last_name = ref('')
@@ -20,15 +22,19 @@ const passwordError = computed(() => {
 })
 const checkPasword = computed(() => password.value === confirm_password.value)
 
-function handleSubmit(e) {
-  if (
-    !isFirstNameValid.value ||
-    !isLastNameValid.value ||
-    passwordError.value ||
-    !checkPasword.value
-  ) {
-    e.preventDefault()
-    return
+const handleSubmit = async () => {
+  try {
+    if (
+      !isFirstNameValid.value ||
+      !isLastNameValid.value ||
+      passwordError.value ||
+      !checkPasword.value
+    ) {
+      return
+    }
+    await authStore.register(first_name.value, last_name.value, email.value, password.value)
+  } catch (error) {
+    console.error('Neuspješna registracija!')
   }
 }
 </script>
@@ -42,7 +48,7 @@ function handleSubmit(e) {
         Welcome!
       </h4>
       <div class="w-full p-2">
-        <form @submit="handleSubmit">
+        <form @submit.prevent="handleSubmit">
           <input
             type="text"
             v-model="first_name"
