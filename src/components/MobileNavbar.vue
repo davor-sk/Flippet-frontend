@@ -87,21 +87,20 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
         </button>
         <div
           v-show="authStore.user && openProfile"
-          class="absolute right-0 top-full z-50 flex flex-col w-84 gap-2 bg-slate-200 text-neutral-800 text-xl rounded-xl p-4 shadow-lg"
+          class="absolute right-0 top-full z-50 flex flex-col w-84 gap-2 bg-[#171b29] text-xl p-6"
         >
-          <div class="flex justify-between items-center gap-2">
-            <div class="text-xl">
-              {{ authStore.user.first_name }} {{ authStore.user.last_name }}<br />
-              {{ authStore.user.email }}
-            </div>
-            <span class="cursor-pointer hover:bg-slate-200 p-4 rounded-2xl"
-              ><v-icon name="co-pencil" scale="2"
-            /></span>
+          <div class="text-xl mb-3">
+            {{ authStore.user?.first_name }} {{ authStore.user?.last_name }}<br />
+            {{ authStore.user?.email }}
           </div>
+          <RouterLink to="/settings" class="flex items-center mb-3 text-xl cursor-pointer">
+            <img src="@/assets/images/settings.png" class="w-10 me-2" />
+            <p>Settings</p>
+          </RouterLink>
           <button
             type="button"
             @click="$emit('logout')"
-            class="block rounded-xl px-3 mt-3 py-2 bg-red-500 text-white w-full cursor-pointer"
+            class="block rounded-xl px-3 mt-3 py-2 bg-[#a41e1e] text-white w-full cursor-pointer"
           >
             <v-icon name="ri-shut-down-line" scale="1.2" />
             <span class="ms-2">Logout</span>

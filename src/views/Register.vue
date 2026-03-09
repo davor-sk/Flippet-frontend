@@ -22,7 +22,7 @@ const passwordError = computed(() => {
 
   return ''
 })
-const checkPasword = computed(() => password.value === confirm_password.value)
+const checkPassword = computed(() => password.value === confirm_password.value)
 
 const handleSubmit = async () => {
   try {
@@ -31,7 +31,7 @@ const handleSubmit = async () => {
       !isLastNameValid.value ||
       !isUsernameValid.value ||
       passwordError.value ||
-      !checkPasword.value
+      !checkPassword.value
     ) {
       return
     }
@@ -144,7 +144,10 @@ const handleSubmit = async () => {
           <span :class="password && passwordError ? 'block text-red-400 text-sm mb-4' : 'hidden'">{{
             passwordError
           }}</span>
-          <div class="relative w-full" :class="confirm_password && !checkPasword ? 'mb-2' : 'mb-6'">
+          <div
+            class="relative w-full"
+            :class="confirm_password && !checkPassword ? 'mb-2' : 'mb-6'"
+          >
             <input
               type="password"
               v-model="confirm_password"
@@ -159,7 +162,7 @@ const handleSubmit = async () => {
           </div>
           <span
             :class="
-              confirm_password && !checkPasword ? 'block text-red-400 text-sm mb-4' : 'hidden'
+              confirm_password && !checkPassword ? 'block text-red-400 text-sm mb-4' : 'hidden'
             "
             >Passwords have to match!</span
           >

@@ -2,12 +2,11 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore.js'
-import DesktopNavbar from './DesktopNavbar.vue'
-import MobileNavbar from './MobileNavbar.vue'
+import DesktopNavbarComponent from './DesktopNavbar.vue'
+import MobileNavbarComponent from './MobileNavbar.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
-
 const searchInput = ref('')
 const open = ref(false)
 const openProfile = ref(false)
@@ -24,7 +23,7 @@ function logoutUser() {
 
 <template>
   <nav class="rounded-2xl text-white shadow-sm p-4" aria-label="Main navigation">
-    <DesktopNavbar
+    <DesktopNavbarComponent
       :auth-store="authStore"
       :search-input="searchInput"
       :open-profile="openProfile"
@@ -35,7 +34,7 @@ function logoutUser() {
       @logout="logoutUser"
     />
 
-    <MobileNavbar
+    <MobileNavbarComponent
       :auth-store="authStore"
       :search-input="searchInput"
       :open="open"
