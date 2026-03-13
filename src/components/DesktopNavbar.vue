@@ -35,7 +35,9 @@ defineEmits(['toggle-search', 'toggle-profile', 'logout'])
           class="w-14 h-14 me-4 cursor-pointer"
           @click="$emit('toggle-search')"
         />
-        <img src="@/assets/images/add_pink_circle.png" class="w-14 h-14 me-1 cursor-pointer" />
+        <RouterLink to="/create">
+          <img src="@/assets/images/add_pink_circle.png" class="w-14 h-14 me-1 cursor-pointer"
+        /></RouterLink>
       </div>
       <div v-if="authStore.user" class="relative" @click="$emit('toggle-profile')">
         <button class="px-3 py-2 flex items-center">
@@ -66,7 +68,7 @@ defineEmits(['toggle-search', 'toggle-profile', 'logout'])
       <div v-else>
         <RouterLink
           to="/login"
-          class="cursor-pointer me-2 bg-[#780c7b] hover:bg-[#3ecad8] hover:text-slate-200 px-6 py-3 font-semibold rounded-2xl"
+          class="cursor-pointer me-2 bg-[#780c7b] hover:bg-[#02a5f1] hover:text-slate-200 px-6 py-3 font-semibold rounded-2xl"
         >
           Log in
         </RouterLink>

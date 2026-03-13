@@ -168,7 +168,7 @@ const handleSubmit = async () => {
           >
           <button
             type="submit"
-            class="cursor-pointer me-2 bg-[#780c7b] hover:bg-[#3ecad8] hover:text-slate-200 px-5 py-2 font-bold rounded-2xl w-full mb-3"
+            class="cursor-pointer me-2 bg-[#780c7b] hover:bg-[#02a5f1] hover:text-slate-200 px-5 py-2 font-bold rounded-2xl w-full mb-3"
           >
             Sign up
           </button>

@@ -3,8 +3,8 @@ import HomeView from '@/views/Home.vue'
 import LogInView from '@/views/LogIn.vue'
 import RegisterView from '@/views/Register.vue'
 import SettingsView from '@/views/Settings.vue'
+import CreateCollectionView from '@/views/CreateCollectionView.vue'
 
-import SidebarComponent from '@/components/Sidebar.vue'
 import HeaderComponent from '@/components/Header.vue'
 
 const router = createRouter({
@@ -32,7 +32,7 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: SidebarComponent,
+      component: CreateCollectionView,
     },
     {
       path: '/study',

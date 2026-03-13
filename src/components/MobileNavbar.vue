@@ -46,7 +46,7 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
             </RouterLink>
           </li>
 
-          <li class="pt-4 mt-4 border-t border-[#3ecad8]">
+          <li class="pt-4 mt-4 border-t border-[#02a5f1]">
             <p class="px-3 py-2 text-[#ce61fe]">Your folders</p>
           </li>
           <li>
