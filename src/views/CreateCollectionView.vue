@@ -1,7 +1,8 @@
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import CreateFlashcard from '@/components/CreateFlashcard.vue'
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore.js'
+import { useSpeechRecognition } from '@/composables/useSpeechRecognition.js'
 
 const authStore = useAuthStore()
 const counter = ref(2)
@@ -20,8 +21,13 @@ const collection = ref({
       definition: '',
     },
   ],
-  createdAt: new Date(),
 })
+
+const { startListening, isListening, activeField } = useSpeechRecognition(
+  ({ index, field, transcript }) => {
+    collection.value.flashcards[index][field] = transcript
+  },
+)
 
 function deleteCard(index) {
   if (collection.value.flashcards.length === 1) return
@@ -53,47 +59,118 @@ async function addCard() {
   console.log('new card:', newCard)
 }
 
-function saveCollection() {
-  console.log('flashcards:', collection.value)
+const isTitleValid = computed(() => collection.value.title.trim().length >= 2)
+const isSubjectValid = computed(() => collection.value.subject.trim().length >= 2)
+const isDescriptionValid = computed(() => collection.value.description.trim().length >= 4)
+
+const saveCollection = async () => {
+  try {
+    const cleanedFlashcards = collection.value.flashcards.filter(
+      (card) => card.term.trim() !== '' && card.definition.trim() !== '',
+    )
+    if (
+      !isTitleValid.value ||
+      !isSubjectValid.value ||
+      !isDescriptionValid.value ||
+      cleanedFlashcards.length === 0
+    ) {
+      return
+    }
+    const payload = {
+      ...collection.value,
+      flashcards: cleanedFlashcards,
+    }
+    await authStore.addCollection(payload)
+  } catch (error) {
+    console.error('Neuspješna izrada kolekcije!', error.response?.data || error.message || error)
+  }
 }
 </script>
 
 <template>
-  <form>
+  <form @submit.prevent="saveCollection">
     <div class="flex flex-col items-center mt-8 w-full">
       <div class="w-8/10 flex flex-col">
         <p class="text-3xl mb-8">Create a new collection</p>
 
         <div class="mb-10">
-          <div class="flex gap-4 mb-6">
-            <input
-              type="text"
-              v-model="collection.title"
-              name="title"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
-              placeholder="Title"
-              required
-            />
-            <input
-              type="text"
-              v-model="collection.subject"
-              name="subject"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
-              placeholder="Subject"
-              required
-            />
+          <div class="flex gap-4">
+            <div
+              :class="['flex flex-col w-full', collection.title && !isTitleValid ? 'mb-2' : 'mb-6']"
+            >
+              <input
+                type="text"
+                v-model="collection.title"
+                name="title"
+                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                placeholder="Title"
+                required
+              />
+              <span
+                :class="
+                  collection.title && !isTitleValid
+                    ? 'block text-red-400 text-sm mb-4 mt-2'
+                    : 'hidden'
+                "
+                >Title is required!</span
+              >
+            </div>
+            <div
+              :class="[
+                'flex flex-col w-full',
+                collection.subject && !isSubjectValid ? 'mb-2' : 'mb-6',
+              ]"
+            >
+              <input
+                type="text"
+                v-model="collection.subject"
+                name="subject"
+                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                placeholder="Subject"
+                required
+              />
+              <span
+                :class="
+                  collection.subject && !isSubjectValid
+                    ? 'block text-red-400 text-sm mb-4 mt-2'
+                    : 'hidden'
+                "
+                >Subject is required!</span
+              >
+            </div>
           </div>
-          <input
-            type="text"
-            v-model="collection.description"
-            name="description"
-            class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
-            placeholder="Add a description..."
-            required
-          />
+          <div
+            :class="[
+              'flex flex-col w-full',
+              collection.description && !isDescriptionValid ? 'mb-2' : 'mb-4',
+            ]"
+          >
+            <input
+              type="text"
+              v-model="collection.description"
+              name="description"
+              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              placeholder="Add a description..."
+              required
+            />
+            <span
+              :class="
+                collection.description && !isDescriptionValid
+                  ? 'block text-red-400 text-sm mb-4 mt-2'
+                  : 'hidden'
+              "
+              >Description is required!</span
+            >
+          </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 pb-36 md:pb-24">
-          <CreateFlashcard :flashcards="collection.flashcards" @delete-card="deleteCard(i)" />
+          <CreateFlashcard
+            :flashcards="collection.flashcards"
+            :is-listening="isListening"
+            :active-field="activeField"
+            @delete-card="deleteCard"
+            @start-listening="startListening"
+          />
         </div>
       </div>
     </div>
@@ -118,8 +195,7 @@ function saveCollection() {
           </button>
 
           <button
-            type="button"
-            @click="saveCollection()"
+            type="submit"
             class="rounded-2xl bg-[#02a5f1] px-4 py-3 font-medium text-white transition hover:opacity-90"
           >
             Save collection

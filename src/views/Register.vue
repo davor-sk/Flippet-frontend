@@ -11,11 +11,11 @@ const email = ref('')
 const password = ref('')
 const confirm_password = ref('')
 
-const isFirstNameValid = computed(() => first_name.value.length >= 3)
-const isLastNameValid = computed(() => last_name.value.length >= 3)
-const isUsernameValid = computed(() => username.value.length >= 3)
+const isFirstNameValid = computed(() => first_name.value.trim().length >= 3)
+const isLastNameValid = computed(() => last_name.value.trim().length >= 3)
+const isUsernameValid = computed(() => username.value.trim().length >= 3)
 const passwordError = computed(() => {
-  if (password.value.length < 8) return 'Password requires at least 8 characters.'
+  if (password.value.trim().length < 8) return 'Password requires at least 8 characters.'
   if (!/[A-Z]/.test(password.value)) return 'Password must contain an uppercase letter.'
   if (!/[a-z]/.test(password.value)) return 'Password must contain a lowercase letter.'
   if (!/[0-9]/.test(password.value)) return 'Password must contain a number.'

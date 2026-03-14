@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 
 const URL_express_users = 'http://localhost:3000/users'
+const URL_express_collections = 'http://localhost:3000/collections'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -70,7 +71,17 @@ export const useAuthStore = defineStore(
       user.value = null
     }
 
-    return { user, login, register, logout, patchUser, deleteUser }
+    const addCollection = async (collection) => {
+      try {
+        const { data } = await axios.post(`${URL_express_collections}`, collection)
+        return data
+      } catch (error) {
+        console.error('Greška: ', error)
+        throw error
+      }
+    }
+
+    return { user, login, register, logout, patchUser, deleteUser, addCollection }
   },
   { persist: true },
 )
