@@ -36,7 +36,7 @@ const handleLogin = async () => {
               type="email"
               v-model="email"
               name="email"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Email address"
               required
             />
@@ -50,7 +50,7 @@ const handleLogin = async () => {
               type="password"
               v-model="password"
               name="password"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Password"
               required
             />
@@ -68,7 +68,7 @@ const handleLogin = async () => {
         </form>
         <RouterLink
           to="/register"
-          class="block cursor-pointer me-2 bg-white/10 text-center text-neutral-300 hover:bg-white/30 hover:text-slate-200 px-5 py-2 font-semibold rounded-2xl w-full hover:ring-1 hover:border-white/30"
+          class="block cursor-pointer me-2 bg-[#171b29] text-center text-neutral-300 hover:bg-white/30 hover:text-slate-200 px-5 py-2 font-semibold rounded-2xl w-full hover:ring-1 hover:border-white/30"
         >
           New to Flippet? Create an account
         </RouterLink>

@@ -22,7 +22,7 @@ defineEmits(['toggle-search', 'toggle-profile', 'logout'])
           v-model="searchInput.value"
           type="text"
           name="searchCollections"
-          class="bg-white/10 text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
+          class="bg-[#171b29] text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
           placeholder="Search..."
         />
       </div>

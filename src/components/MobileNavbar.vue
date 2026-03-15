@@ -22,7 +22,7 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
           <li>
             <RouterLink
               to="/"
-              class="flex items-center px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+              class="flex items-center px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
               ><img src="@/assets/images/home.png" class="w-10" />
               <p class="ms-3">Home</p>
             </RouterLink>
@@ -30,8 +30,8 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
 
           <li>
             <RouterLink
-              to="/create"
-              class="flex items-center px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+              :to="authStore.user ? '/create' : '/login'"
+              class="flex items-center px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
               ><img src="@/assets/images/add.png" class="w-10" />
               <p class="ms-3">Create</p>
             </RouterLink>
@@ -40,7 +40,7 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
           <li>
             <RouterLink
               to="/study"
-              class="flex items-center px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+              class="flex items-center px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
               ><img src="@/assets/images/library_books.png" class="w-10" />
               <p class="ms-3">Study</p>
             </RouterLink>
@@ -52,7 +52,7 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
           <li>
             <RouterLink
               to="/study"
-              class="flex items-center px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+              class="flex items-center px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
               ><img src="@/assets/images/flashcards.png" class="w-10" />
               <p class="ms-3">Flashcards</p>
             </RouterLink>
@@ -77,7 +77,7 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
           @click="$emit('close-menu')"
           type="text"
           name="searchCollections"
-          class="bg-white/10 text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
+          class="bg-[#171b29] text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"
           placeholder="Search..."
         />
       </div>

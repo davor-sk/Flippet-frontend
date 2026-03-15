@@ -65,7 +65,7 @@ const handleSubmit = async () => {
               type="text"
               v-model="first_name"
               name="first_name"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="First name"
               required
             />
@@ -83,7 +83,7 @@ const handleSubmit = async () => {
               type="text"
               v-model="last_name"
               name="last_name"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Last name"
               required
             />
@@ -101,7 +101,7 @@ const handleSubmit = async () => {
               type="text"
               v-model="username"
               name="username"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Username"
               required
             />
@@ -118,7 +118,7 @@ const handleSubmit = async () => {
               type="email"
               v-model="email"
               name="email"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Email address"
               required
             />
@@ -132,7 +132,7 @@ const handleSubmit = async () => {
               type="password"
               v-model="password"
               name="password"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Password"
               required
             />
@@ -151,7 +151,7 @@ const handleSubmit = async () => {
             <input
               type="password"
               v-model="confirm_password"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Confirm password"
               required
             />

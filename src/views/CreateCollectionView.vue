@@ -3,16 +3,18 @@ import { ref, nextTick, computed } from 'vue'
 import CreateFlashcard from '@/components/CreateFlashcard.vue'
 import { useAuthStore } from '@/stores/authStore.js'
 import { useSpeechRecognition } from '@/composables/useSpeechRecognition.js'
+import { useCollectionStore } from '@/stores/collectionStore.js'
 
 const authStore = useAuthStore()
+const collecionStore = useCollectionStore()
 const counter = ref(2)
 
-console.log('user_id: ', authStore.user.id)
+console.log('user_id: ', authStore.user?.id)
 
 const collection = ref({
   userId: authStore.user?.id || '',
   title: '',
-  subject: '',
+  category: '',
   description: '',
   flashcards: [
     {
@@ -60,7 +62,7 @@ async function addCard() {
 }
 
 const isTitleValid = computed(() => collection.value.title.trim().length >= 2)
-const isSubjectValid = computed(() => collection.value.subject.trim().length >= 2)
+const isCategoryValid = computed(() => collection.value.category.trim().length >= 2)
 const isDescriptionValid = computed(() => collection.value.description.trim().length >= 4)
 
 const saveCollection = async () => {
@@ -70,7 +72,7 @@ const saveCollection = async () => {
     )
     if (
       !isTitleValid.value ||
-      !isSubjectValid.value ||
+      !isCategoryValid.value ||
       !isDescriptionValid.value ||
       cleanedFlashcards.length === 0
     ) {
@@ -80,7 +82,7 @@ const saveCollection = async () => {
       ...collection.value,
       flashcards: cleanedFlashcards,
     }
-    await authStore.addCollection(payload)
+    await collecionStore.addCollection(payload)
   } catch (error) {
     console.error('Neuspješna izrada kolekcije!', error.response?.data || error.message || error)
   }
@@ -102,7 +104,7 @@ const saveCollection = async () => {
                 type="text"
                 v-model="collection.title"
                 name="title"
-                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
                 placeholder="Title"
                 required
               />
@@ -118,24 +120,24 @@ const saveCollection = async () => {
             <div
               :class="[
                 'flex flex-col w-full',
-                collection.subject && !isSubjectValid ? 'mb-2' : 'mb-6',
+                collection.category && !isCategoryValid ? 'mb-2' : 'mb-6',
               ]"
             >
               <input
                 type="text"
-                v-model="collection.subject"
-                name="subject"
-                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
-                placeholder="Subject"
+                v-model="collection.category"
+                name="category"
+                class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                placeholder="Category"
                 required
               />
               <span
                 :class="
-                  collection.subject && !isSubjectValid
+                  collection.category && !isCategoryValid
                     ? 'block text-red-400 text-sm mb-4 mt-2'
                     : 'hidden'
                 "
-                >Subject is required!</span
+                >Category is required!</span
               >
             </div>
           </div>
@@ -149,7 +151,7 @@ const saveCollection = async () => {
               type="text"
               v-model="collection.description"
               name="description"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
               placeholder="Add a description..."
               required
             />
@@ -163,7 +165,7 @@ const saveCollection = async () => {
             >
           </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 pb-36 md:pb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-36 md:pb-24">
           <CreateFlashcard
             :flashcards="collection.flashcards"
             :is-listening="isListening"

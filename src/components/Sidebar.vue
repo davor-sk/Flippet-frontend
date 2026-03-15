@@ -9,19 +9,17 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <nav
-    class="shadow-sm p-4 min-h-screen hidden md:flex flex-col border-r border-r-[#3ecad8]"
-    aria-label="Sidebar navigation"
-  >
+  <nav class="shadow-sm p-4 min-h-screen hidden md:flex flex-col border-r border-r-[#3ecad8]">
     <div class="mb-10">
-      <img src="@/assets/images/Flippet_logo_main.png" class="w-full" />
+      <RouterLink to="/"></RouterLink>
+      <img src="@/assets/images/Flippet_logo_main.png" class="w-full cursor-pointer" />
     </div>
 
     <ul class="space-y-1 text-xl">
       <li>
         <RouterLink
           to="/"
-          class="flex items-center rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
           ><img src="@/assets/images/home.png" class="w-1/7" />
           <p class="ms-3">Home</p>
         </RouterLink>
@@ -29,8 +27,8 @@ const authStore = useAuthStore()
 
       <li>
         <RouterLink
-          to="/create"
-          class="flex items-center rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+          :to="authStore.user ? '/create' : '/login'"
+          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
           ><img src="@/assets/images/add.png" class="w-1/7" />
           <p class="ms-3">Create</p>
         </RouterLink>
@@ -39,7 +37,7 @@ const authStore = useAuthStore()
       <li>
         <RouterLink
           to="/study"
-          class="flex items-center rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
           ><img src="@/assets/images/library_books.png" class="w-1/7" />
           <p class="ms-3">Study</p>
         </RouterLink>
@@ -52,7 +50,7 @@ const authStore = useAuthStore()
         <li>
           <RouterLink
             to="/study"
-            class="flex items-center rounded-xl px-3 py-2 hover:bg-white/10 hover:text-slate-200"
+            class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
             ><img src="@/assets/images/flashcards.png" class="w-1/7" />
             <p class="ms-3">Flashcards</p>
           </RouterLink>

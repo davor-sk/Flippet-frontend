@@ -16,13 +16,13 @@ const emits = defineEmits(['deleteCard', 'startListening'])
     :key="flashcard.id"
     :id="`flashcard_${flashcard.id}`"
   >
-    <div class="flex justify-between bg-white/10 rounded-t-2xl mb-2 p-4">
+    <div class="flex justify-between bg-[#171b29] rounded-t-2xl mb-2 p-4">
       <p class="text-[#02a5f1] text-xl">#{{ index + 1 }}</p>
       <button type="button" class="cursor-pointer" @click="$emit('deleteCard', index)">
         <img src="@/assets/images/delete.png" class="w-6" />
       </button>
     </div>
-    <div class="flex flex-col justify-between bg-white/10 p-4 rounded-b-2xl mb-4">
+    <div class="flex flex-col justify-between bg-[#171b29] p-4 rounded-b-2xl mb-4">
       <div class="relative w-full">
         <label :for="`term_${flashcard.id}`">TERM</label>
         <textarea

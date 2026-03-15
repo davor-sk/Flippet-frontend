@@ -123,7 +123,7 @@ const handleDeleteUser = async () => {
               name="username"
               required=""
               v-model="username"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-9 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-9 focus-visible:ring-2 ring-white/10 border-b-4"
             />
             <span
               :class="username && !isUsernameValid ? 'block text-red-400 text-sm mt-2' : 'hidden'"
@@ -145,7 +145,7 @@ const handleDeleteUser = async () => {
               name="email"
               required
               v-model="email"
-              class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-9 focus-visible:ring-2 ring-white/10 border-b-4"
+              class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-9 focus-visible:ring-2 ring-white/10 border-b-4"
             />
           </div>
           <div class="flex items-center cursor-pointer" @click="toggleEmailEdit">
@@ -162,7 +162,7 @@ const handleDeleteUser = async () => {
                 type="password"
                 v-model="old_password"
                 name="password"
-                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
                 placeholder="Old password"
                 required
               />
@@ -170,7 +170,7 @@ const handleDeleteUser = async () => {
                 type="password"
                 v-model="password"
                 name="password"
-                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
                 placeholder="New password"
                 required
               />
@@ -181,7 +181,7 @@ const handleDeleteUser = async () => {
               <input
                 type="password"
                 v-model="confirm_password"
-                class="bg-white/10 text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
+                class="bg-[#171b29] text-white placeholder:text-white/50 border border-white/30 rounded-2xl p-2 w-full h-11 focus-visible:ring-2 ring-white/10 border-b-4"
                 placeholder="Confirm password"
                 required
               />
