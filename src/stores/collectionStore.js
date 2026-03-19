@@ -7,6 +7,7 @@ const URL_express_collections = 'http://localhost:3000/collections'
 export const useCollectionStore = defineStore('collection', () => {
   const collections = ref([])
   const selectedCollection = ref(null)
+  const myCollections = ref([])
 
   const addCollection = async (collectionToAdd) => {
     try {
@@ -39,5 +40,23 @@ export const useCollectionStore = defineStore('collection', () => {
     }
   }
 
-  return { collections, addCollection, getCollections, getCollectionById, selectedCollection }
+  const getCollectionsByUserId = async (userId) => {
+    try {
+      const { data } = await axios.get(`${URL_express_collections}/user/${userId}`)
+      myCollections.value = data
+    } catch (error) {
+      console.error('Greška: ', error)
+      throw error
+    }
+  }
+
+  return {
+    collections,
+    addCollection,
+    getCollections,
+    getCollectionById,
+    selectedCollection,
+    getCollectionsByUserId,
+    myCollections,
+  }
 })

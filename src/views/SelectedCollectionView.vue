@@ -2,6 +2,7 @@
 import { useCollectionStore } from '@/stores/collectionStore.js'
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import Results from '@/components/Results.vue'
 
 const route = useRoute()
 const collectionStore = useCollectionStore()
@@ -10,69 +11,111 @@ const currentCardIndex = ref(0)
 const showAnswer = ref(false)
 const isFinished = ref(false)
 
+const startTime = ref(null)
+const endTime = ref(null)
+
+const activeCards = ref([])
 const learnedCards = ref([])
 const notLearnedCards = ref([])
 
-const flashcards = computed(() => {
-  return collectionStore.selectedCollection?.flashcards || {}
+const originalCards = computed(() => {
+  return collectionStore.selectedCollection?.flashcards || []
 })
 
 const currentCard = computed(() => {
-  return flashcards.value[currentCardIndex.value] || null
+  return activeCards.value[currentCardIndex.value] || null
 })
 
 const nextCard = () => {
-  if (currentCardIndex.value < flashcards.value.length - 1) {
+  if (currentCardIndex.value < activeCards.value.length - 1) {
     currentCardIndex.value++
     showAnswer.value = false
   } else {
+    endTime.value = Date.now()
     isFinished.value = true
   }
 }
 
 const markLearned = () => {
+  if (!currentCard.value) return
   learnedCards.value.push(currentCard.value)
   nextCard()
 }
 
 const markNotLearned = () => {
+  if (!currentCard.value) return
   notLearnedCards.value.push(currentCard.value)
   nextCard()
 }
 
 const result = computed(() => {
-  let res = (learnedCards.value.length / flashcards.value.length).toFixed(2)
-  console.log(res)
-  return res * 100
+  if (!activeCards.value.length) return 0
+  return Math.round((learnedCards.value.length / activeCards.value.length) * 100)
 })
 
 onMounted(async () => {
   try {
     const collectionId = route.params.id
     await collectionStore.getCollectionById(collectionId)
-    console.log('id:', route.params.id)
+    activeCards.value = [...originalCards.value]
+    startTime.value = Date.now()
   } catch (error) {
     console.error('Neuspješan dohvat kolekcija!')
   }
 })
+
+const elapsedTime = computed(() => {
+  if (!startTime.value || !endTime.value) return '0s'
+  const totalSeconds = Math.floor((endTime.value - startTime.value) / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}m ${seconds}s`
+})
+
+const retryWrong = () => {
+  const wrongCards = [...notLearnedCards.value]
+
+  activeCards.value = wrongCards
+  currentCardIndex.value = 0
+  isFinished.value = false
+  showAnswer.value = false
+  learnedCards.value = []
+  notLearnedCards.value = []
+  startTime.value = Date.now()
+  endTime.value = null
+}
+
+const retryAll = () => {
+  isFinished.value = false
+  showAnswer.value = false
+  learnedCards.value = []
+  startTime.value = Date.now()
+  endTime.value = null
+  currentCardIndex.value = 0
+  activeCards.value = [...originalCards.value]
+  notLearnedCards.value = []
+}
 </script>
 
 <template>
   <div class="flex flex-col items-center mt-8 w-full">
     <div v-if="isFinished">
-      <div v-if="result < 51">
-        <img src="../assets/images/sad_robot.png" />
-      </div>
-      <div v-else>
-        <img src="../assets/images/happy_robot.png" />
-      </div>
+      <Results
+        :result="result"
+        :learned-cards="learnedCards"
+        :not-learned-cards="notLearnedCards"
+        :active-cards="activeCards"
+        :elapsed-time="elapsedTime"
+        @retry-wrong="retryWrong"
+        @retry-all="retryAll"
+      />
     </div>
     <div v-else class="flex w-7/10 justify-center my-8">
       <div class="flex flex-col justify-center w-full max-w-5xl">
         <p class="text-3xl text-[#02a5f1] mb-6">{{ collectionStore.selectedCollection?.title }}</p>
         <div class="flex justify-between mb-2 px-4">
           <p>Click to flip</p>
-          <p class="text-lg">{{ currentCardIndex + 1 }}/{{ flashcards.length }}</p>
+          <p class="text-lg">{{ currentCardIndex + 1 }}/{{ activeCards.length }}</p>
         </div>
         <div
           class="flex items-center justify-center text-2xl bg-[#171b29] p-4 rounded-2xl cursor-pointer h-70"
@@ -87,14 +130,14 @@ onMounted(async () => {
               notLearnedCards.length
             }}</span>
             <img
-              class="w-14 cursor-pointer"
+              class="w-18 cursor-pointer"
               src="../assets/images/cancel.png"
               @click="markNotLearned()"
             />
           </div>
           <div class="flex items-center">
             <img
-              class="w-14 cursor-pointer"
+              class="w-18 cursor-pointer"
               src="../assets/images/check_circle.png"
               @click="markLearned()"
             />
