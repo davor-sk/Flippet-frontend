@@ -70,8 +70,8 @@ onMounted(async () => {
 
       <RouterLink
         :to="{ name: 'selectedCollection', params: { id: collection._id } }"
-        v-for="(collection, index) in userCollections"
-        :key="index"
+        v-for="collection in userCollections"
+        :key="collection._id"
         class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
       >
         <img src="@/assets/images/flashcards.png" class="w-1/7" />

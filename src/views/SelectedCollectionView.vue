@@ -1,6 +1,6 @@
 <script setup>
 import { useCollectionStore } from '@/stores/collectionStore.js'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Results from '@/components/Results.vue'
 
@@ -53,17 +53,6 @@ const result = computed(() => {
   return Math.round((learnedCards.value.length / activeCards.value.length) * 100)
 })
 
-onMounted(async () => {
-  try {
-    const collectionId = route.params.id
-    await collectionStore.getCollectionById(collectionId)
-    activeCards.value = [...originalCards.value]
-    startTime.value = Date.now()
-  } catch (error) {
-    console.error('Neuspješan dohvat kolekcija!')
-  }
-})
-
 const elapsedTime = computed(() => {
   if (!startTime.value || !endTime.value) return '0s'
   const totalSeconds = Math.floor((endTime.value - startTime.value) / 1000)
@@ -95,6 +84,21 @@ const retryAll = () => {
   activeCards.value = [...originalCards.value]
   notLearnedCards.value = []
 }
+
+watch(
+  () => route.params.id,
+  async (newId) => {
+    if (!newId) return
+
+    try {
+      await collectionStore.getCollectionById(newId)
+      retryAll()
+    } catch (error) {
+      console.error('Neuspješan dohvat kolekcije!', error)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -117,12 +121,22 @@ const retryAll = () => {
           <p>Click to flip</p>
           <p class="text-lg">{{ currentCardIndex + 1 }}/{{ activeCards.length }}</p>
         </div>
-        <div
-          class="flex items-center justify-center text-2xl bg-[#171b29] p-4 rounded-2xl cursor-pointer h-70"
-          @click="showAnswer = !showAnswer"
-        >
-          <p v-if="!showAnswer">{{ currentCard?.term }}</p>
-          <p v-else>{{ currentCard?.definition }}</p>
+        <div class="cursor-pointer h-70 perspective-[200px]" @click="showAnswer = !showAnswer">
+          <div
+            class="relative w-full h-full transform-3d transition-transform duration-500 ease-in-out"
+            :class="{ 'transform-[rotateX(180deg)]': showAnswer }"
+          >
+            <div
+              class="absolute inset-0 backface-hidden flex items-center justify-center bg-[#171b29] rounded-2xl p-4"
+            >
+              <p class="text-xl font-medium">{{ currentCard?.term }}</p>
+            </div>
+            <div
+              class="absolute inset-0 backface-hidden transform-[rotateX(180deg)] flex items-center justify-center bg-[#1e2436] rounded-2xl p-4"
+            >
+              <p class="text-xl font-medium">{{ currentCard?.definition }}</p>
+            </div>
+          </div>
         </div>
         <div class="flex justify-center mt-4">
           <div class="flex items-center pe-8">
