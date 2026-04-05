@@ -5,6 +5,9 @@ import { addIcons } from 'oh-vue-icons'
 import { CoHome, CoPencil, LaSchoolSolid } from 'oh-vue-icons/icons'
 import { onMounted, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 addIcons(CoHome, CoPencil, LaSchoolSolid)
 
 const authStore = useAuthStore()
@@ -16,12 +19,13 @@ const userCollections = computed(() => {
 
 onMounted(async () => {
   try {
+    console.log(authStore.user?.id)
     const userId = authStore.user?.id
+
     if (!userId) return
     await collectionStore.getCollectionsByUserId(userId)
-    console.log('collections: ', userCollections.value)
   } catch (error) {
-    console.error('Neuspješan dohvat kolekcija!')
+    showToast('Neuspješan dohvat kolekcija!', 'error')
   }
 })
 </script>

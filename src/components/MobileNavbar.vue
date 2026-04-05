@@ -2,9 +2,12 @@
 import { addIcons } from 'oh-vue-icons'
 import { FaSearch, CoHamburgerMenu, RiShutDownLine } from 'oh-vue-icons/icons'
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore.js'
+
+const authStore = useAuthStore()
 
 addIcons(FaSearch, CoHamburgerMenu, RiShutDownLine)
-defineProps(['authStore', 'searchInput', 'open', 'openProfile'])
+defineProps(['searchInput', 'open', 'openProfile'])
 defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
 </script>
 <template>

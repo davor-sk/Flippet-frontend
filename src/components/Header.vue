@@ -24,7 +24,6 @@ function logoutUser() {
 <template>
   <nav class="rounded-2xl text-white shadow-sm p-4" aria-label="Main navigation">
     <DesktopNavbarComponent
-      :auth-store="authStore"
       :search-input="searchInput"
       :open-profile="openProfile"
       :open-search="openSearch"
@@ -35,7 +34,6 @@ function logoutUser() {
     />
 
     <MobileNavbarComponent
-      :auth-store="authStore"
       :search-input="searchInput"
       :open="open"
       :open-profile="openProfile"

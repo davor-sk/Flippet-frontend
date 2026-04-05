@@ -2,10 +2,13 @@
 import { addIcons } from 'oh-vue-icons'
 import { FaSearch, RiShutDownLine } from 'oh-vue-icons/icons'
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore.js'
+
+const authStore = useAuthStore()
 
 addIcons(FaSearch, RiShutDownLine)
 
-defineProps(['authStore', 'searchInput', 'openProfile', 'openSearch'])
+defineProps(['searchInput', 'openProfile', 'openSearch'])
 defineEmits(['toggle-search', 'toggle-profile', 'logout'])
 </script>
 

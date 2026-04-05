@@ -4,12 +4,13 @@ import CreateFlashcard from '@/components/CreateFlashcard.vue'
 import { useAuthStore } from '@/stores/authStore.js'
 import { useSpeechRecognition } from '@/composables/useSpeechRecognition.js'
 import { useCollectionStore } from '@/stores/collectionStore.js'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const authStore = useAuthStore()
-const collecionStore = useCollectionStore()
+const collectionStore = useCollectionStore()
 const counter = ref(2)
-
-console.log('user_id: ', authStore.user?.id)
 
 const collection = ref({
   userId: authStore.user?.id || '',
@@ -44,8 +45,6 @@ async function addCard() {
     definition: '',
   })
   counter.value++
-  console.log('flashcards:', collection.value)
-  console.log('counter:', counter.value)
 
   await nextTick()
   const newCard = document.getElementById(`flashcard_${newId}`)
@@ -57,8 +56,6 @@ async function addCard() {
     })
     newCard.querySelector('textarea')?.focus()
   }
-
-  console.log('new card:', newCard)
 }
 
 const isTitleValid = computed(() => collection.value.title.trim().length >= 2)
@@ -82,9 +79,10 @@ const saveCollection = async () => {
       ...collection.value,
       flashcards: cleanedFlashcards,
     }
-    await collecionStore.addCollection(payload)
+    await collectionStore.addCollection(payload)
+    showToast('Kolekcija uspješno kreirana!', 'success')
   } catch (error) {
-    console.error('Neuspješna izrada kolekcije!', error.response?.data || error.message || error)
+    showToast('Neuspješna izrada kolekcije!', 'error')
   }
 }
 </script>

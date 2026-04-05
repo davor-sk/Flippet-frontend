@@ -1,8 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore.js'
+import { useRouter } from 'vue-router'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const authStore = useAuthStore()
+const router = useRouter()
 
 const first_name = ref('')
 const username = ref('')
@@ -42,8 +47,10 @@ const handleSubmit = async () => {
       email.value,
       password.value,
     )
+    showToast('Uspješna registracija!', 'success')
+    router.push('/login')
   } catch (error) {
-    console.error('Neuspješna registracija!')
+    showToast('Neuspješna registracija!', 'error')
   }
 }
 </script>

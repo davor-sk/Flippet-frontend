@@ -2,6 +2,9 @@
 import { useAuthStore } from '@/stores/authStore'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -18,7 +21,8 @@ const isEditingPassword = ref(false)
 
 const isUsernameValid = computed(() => username.value.trim().length >= 3)
 const passwordError = computed(() => {
-  if (password.value && password.value.length < 8) return 'Password requires at least 8 characters.'
+  if (!password.value) return ''
+  if (password.value.length < 8) return 'Password requires at least 8 characters.'
   if (!/[A-Z]/.test(password.value)) return 'Password must contain an uppercase letter.'
   if (!/[a-z]/.test(password.value)) return 'Password must contain a lowercase letter.'
   if (!/[0-9]/.test(password.value)) return 'Password must contain a number.'
@@ -79,8 +83,9 @@ const handleSubmit = async () => {
     old_password.value = ''
     password.value = ''
     confirm_password.value = ''
+    showToast('Podaci uspješno promijenjeni!', 'success')
   } catch (error) {
-    console.error('Neuspješna promjena podataka!')
+    showToast('Neuspješna promjena podataka!', 'error')
   }
 }
 
@@ -95,9 +100,10 @@ const handleDeleteUser = async () => {
     if (!userId) return
     await authStore.deleteUser(userId)
     authStore.logout()
+    showToast('Korisnik uspješno obrisan!', 'success')
     router.push('/login')
   } catch (error) {
-    console.error('Neuspješna promjena podataka!')
+    showToast('Neuspješno brisanje korisnika!', 'error')
   }
 }
 </script>

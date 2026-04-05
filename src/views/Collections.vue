@@ -1,6 +1,9 @@
 <script setup>
 import { useCollectionStore } from '@/stores/collectionStore.js'
 import { onMounted, computed } from 'vue'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const collectionStore = useCollectionStore()
 
@@ -11,9 +14,8 @@ const firstFiveCollections = computed(() => {
 onMounted(async () => {
   try {
     await collectionStore.getCollections()
-    console.log('collectionStore: ', collectionStore)
   } catch (error) {
-    console.error('Neuspješan dohvat kolekcija!')
+    showToast('Neuspješna autentifikacija!', 'error')
   }
 })
 </script>

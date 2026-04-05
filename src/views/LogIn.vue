@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore.js'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -14,7 +17,7 @@ const handleLogin = async () => {
     await authStore.login(email.value, password.value)
     router.push('/')
   } catch (error) {
-    console.error('Neuspješna autentifikacija!')
+    showToast('Neuspješna autentifikacija!', 'error')
   }
 }
 </script>

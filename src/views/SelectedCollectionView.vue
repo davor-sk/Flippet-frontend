@@ -1,8 +1,11 @@
 <script setup>
 import { useCollectionStore } from '@/stores/collectionStore.js'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Results from '@/components/Results.vue'
+import { useToast } from '@/composables/useToast.js'
+
+const { showToast } = useToast()
 
 const route = useRoute()
 const collectionStore = useCollectionStore()
@@ -94,7 +97,7 @@ watch(
       await collectionStore.getCollectionById(newId)
       retryAll()
     } catch (error) {
-      console.error('Neuspješan dohvat kolekcije!', error)
+      showToast('Neuspješan dohvat kolekcije!', 'error')
     }
   },
   { immediate: true },
@@ -121,7 +124,7 @@ watch(
           <p>Click to flip</p>
           <p class="text-lg">{{ currentCardIndex + 1 }}/{{ activeCards.length }}</p>
         </div>
-        <div class="cursor-pointer h-70 perspective-[200px]" @click="showAnswer = !showAnswer">
+        <div class="cursor-pointer h-70 perspective-[1000px]" @click="showAnswer = !showAnswer">
           <div
             class="relative w-full h-full transform-3d transition-transform duration-500 ease-in-out"
             :class="{ 'transform-[rotateX(180deg)]': showAnswer }"
