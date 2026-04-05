@@ -60,27 +60,29 @@ onMounted(async () => {
       <li>
         <RouterLink
           to="/study"
-          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
+          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200 mb-4"
           ><img src="@/assets/images/library_books.png" class="w-1/7" />
           <p class="ms-3">Study</p>
         </RouterLink>
       </li>
     </ul>
 
-    <div v-if="authStore.user">
-      <div class="pt-4 mt-4 border-t border-[#3ecad8]">
-        <p class="rounded-xl px-3 py-2 text-[#ce61fe]">Your collections</p>
-      </div>
-
-      <RouterLink
-        :to="{ name: 'selectedCollection', params: { id: collection._id } }"
-        v-for="collection in userCollections"
-        :key="collection._id"
-        class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
-      >
-        <img src="@/assets/images/flashcards.png" class="w-1/7" />
-        <p class="ms-3 text-xl">{{ collection.title }}</p>
+    <div v-if="authStore.user && userCollections.length > 0" class="border-t border-[#3ecad8] pt-4">
+      <RouterLink to="/mycollections" class="pt-4 mt-4">
+        <p class="rounded-xl px-3 py-2 text-[#ce61fe] hover:bg-[#171b29] hover:text-slate-200">
+          My collections
+        </p>
       </RouterLink>
+
+      <div v-for="collection in userCollections" :key="collection._id" class="flex items-center">
+        <RouterLink
+          :to="{ name: 'selectedCollection', params: { id: collection._id } }"
+          class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
+        >
+          <img src="@/assets/images/flashcards.png" class="w-1/7" />
+          <p class="ms-3 text-xl">{{ collection.title }}</p>
+        </RouterLink>
+      </div>
     </div>
   </nav>
 </template>

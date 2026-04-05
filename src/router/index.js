@@ -6,6 +6,7 @@ import SettingsView from '@/views/Settings.vue'
 import CreateCollectionView from '@/views/CreateCollectionView.vue'
 import CollectionsView from '@/views/Collections.vue'
 import SelectedCollectionView from '@/views/SelectedCollectionView.vue'
+import MyCollections from '@/views/MyCollections.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,11 @@ const router = createRouter({
       path: '/study/:id',
       name: 'selectedCollection',
       component: SelectedCollectionView,
+    },
+    {
+      path: '/mycollections',
+      name: 'mycollections',
+      component: MyCollections,
     },
   ],
 })

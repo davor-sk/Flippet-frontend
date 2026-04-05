@@ -50,6 +50,19 @@ export const useCollectionStore = defineStore('collection', () => {
     }
   }
 
+  const deleteCollection = async (collectionId) => {
+    try {
+      await axios.delete(`${URL_express_collections}/delete/${collectionId}`)
+      const index = myCollections.value.findIndex((coll) => coll._id === collectionId)
+      if (index !== -1) {
+        myCollections.value.splice(index, 1)
+      }
+    } catch (error) {
+      console.error('Greška: ', error)
+      throw error
+    }
+  }
+
   return {
     collections,
     addCollection,
@@ -58,5 +71,6 @@ export const useCollectionStore = defineStore('collection', () => {
     selectedCollection,
     getCollectionsByUserId,
     myCollections,
+    deleteCollection,
   }
 })

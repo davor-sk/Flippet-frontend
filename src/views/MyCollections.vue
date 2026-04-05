@@ -1,33 +1,34 @@
 <script setup>
 import { useCollectionStore } from '@/stores/collectionStore.js'
 import { onMounted, computed } from 'vue'
+import { useCollectionActions } from '@/composables/useCollectionActions.js'
 import { useToast } from '@/composables/useToast.js'
+import { useAuthStore } from '@/stores/authStore'
 
+const authStore = useAuthStore()
+const { handleDeleteCollection } = useCollectionActions()
 const { showToast } = useToast()
 
 const collectionStore = useCollectionStore()
 
-const firstFiveCollections = computed(() => {
-  return collectionStore.collections.slice(0, 5)
+const myCollections = computed(() => {
+  return collectionStore.myCollections
 })
 
 onMounted(async () => {
+  if (collectionStore.myCollections.length > 0) return
   try {
-    await collectionStore.getCollections()
+    await collectionStore.getCollectionsByUserId(authStore.user?.id)
   } catch (error) {
-    showToast('Neuspješna autentifikacija!', 'error')
+    showToast('Neuspješan dohvat kolekcija!', 'error')
   }
 })
 </script>
 
 <template>
   <div class="w-full mx-auto px-4 my-8">
-    <p class="text-[#ce61fe] py-4 text-2xl">Explore existing flashcards</p>
-    <div
-      class="flex flex-col mb-4 w-full"
-      v-for="(collection, index) in firstFiveCollections"
-      :key="collection._id"
-    >
+    <p class="text-[#ce61fe] p-4 text-2xl">My collections</p>
+    <div class="flex flex-col" v-for="(collection, index) in myCollections" :key="collection._id">
       <div
         class="flex items-center w-full rounded-2xl p-4 gap-6"
         :class="index % 2 == 0 ? 'bg-[#460748]' : 'bg-[#171b29]'"
@@ -38,7 +39,7 @@ onMounted(async () => {
           <p class="text-sm">{{ collection.description }}</p>
           <p>{{ collection.flashcards?.length || 0 }} Cards</p>
         </div>
-        <div class="flex items-start justify-end me-2">
+        <div class="flex flex-col items-end">
           <RouterLink :to="{ name: 'selectedCollection', params: { id: collection._id } }">
             <button
               type="button"
@@ -47,6 +48,19 @@ onMounted(async () => {
               Start
             </button>
           </RouterLink>
+          <div class="flex mt-2">
+            <RouterLink :to="{ name: 'create' }">
+              <img
+                src="@/assets/images/edit.png"
+                class="w-10 h-10 mx-2 hover:rounded-full hover:bg-slate-200 p-2 cursor-pointer"
+              />
+            </RouterLink>
+            <img
+              src="@/assets/images/delete.png"
+              class="w-10 h-10 hover:rounded-full hover:bg-slate-200 p-2 cursor-pointer"
+              @click="handleDeleteCollection(collection._id)"
+            />
+          </div>
         </div>
       </div>
     </div>

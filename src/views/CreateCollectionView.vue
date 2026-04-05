@@ -5,8 +5,10 @@ import { useAuthStore } from '@/stores/authStore.js'
 import { useSpeechRecognition } from '@/composables/useSpeechRecognition.js'
 import { useCollectionStore } from '@/stores/collectionStore.js'
 import { useToast } from '@/composables/useToast.js'
+import { useRouter } from 'vue-router'
 
 const { showToast } = useToast()
+const router = useRouter()
 
 const authStore = useAuthStore()
 const collectionStore = useCollectionStore()
@@ -81,6 +83,7 @@ const saveCollection = async () => {
     }
     await collectionStore.addCollection(payload)
     showToast('Kolekcija uspješno kreirana!', 'success')
+    router.push('/')
   } catch (error) {
     showToast('Neuspješna izrada kolekcije!', 'error')
   }

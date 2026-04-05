@@ -6,7 +6,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <div class="p-14">
+  <div class="px-4 py-14 md:p-14">
     <div
       class="flex flex-col justify-center items-center text-white min-h-fit"
       v-if="!authStore.user"

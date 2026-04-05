@@ -3,8 +3,15 @@ import { addIcons } from 'oh-vue-icons'
 import { FaSearch, CoHamburgerMenu, RiShutDownLine } from 'oh-vue-icons/icons'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore.js'
+import { computed } from 'vue'
+import { useCollectionStore } from '@/stores/collectionStore'
 
 const authStore = useAuthStore()
+const collectionStore = useCollectionStore()
+
+const userCollections = computed(() => {
+  return collectionStore.myCollections || []
+})
 
 addIcons(FaSearch, CoHamburgerMenu, RiShutDownLine)
 defineProps(['searchInput', 'open', 'openProfile'])
@@ -49,15 +56,18 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
             </RouterLink>
           </li>
 
-          <li class="pt-4 mt-4 border-t border-[#02a5f1]">
-            <p class="px-3 py-2 text-[#ce61fe]">Your folders</p>
+          <li class="pt-4 mt-4 border-t border-[#02a5f1]" v-if="userCollections.length > 0">
+            <RouterLink to="/mycollections" class="pt-4 mt-4">
+              <p class="px-3 py-2 text-[#ce61fe]">My collections</p>
+            </RouterLink>
           </li>
-          <li>
+          <li v-for="collection in userCollections" :key="collection._id" class="flex items-center">
             <RouterLink
-              to="/study"
-              class="flex items-center px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
-              ><img src="@/assets/images/flashcards.png" class="w-10" />
-              <p class="ms-3">Flashcards</p>
+              :to="{ name: 'selectedCollection', params: { id: collection._id } }"
+              class="flex items-center rounded-xl px-3 py-2 hover:bg-[#171b29] hover:text-slate-200"
+            >
+              <img src="@/assets/images/flashcards.png" class="w-1/7" />
+              <p class="ms-3 text-xl">{{ collection.title }}</p>
             </RouterLink>
           </li>
           <li v-if="!authStore.user" class="w-full">
