@@ -14,8 +14,8 @@ const userCollections = computed(() => {
 })
 
 addIcons(FaSearch, CoHamburgerMenu, RiShutDownLine)
-defineProps(['searchInput', 'open', 'openProfile'])
-defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
+defineProps(['searchQuery', 'open', 'openProfile'])
+defineEmits(['search', 'toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
 </script>
 <template>
   <div class="flex flex-col w-full lg:hidden">
@@ -86,7 +86,8 @@ defineEmits(['toggle-menu', 'close-menu', 'toggle-profile', 'logout'])
         </span>
 
         <input
-          v-model="searchInput.value"
+          :value="searchQuery"
+          @input="$emit('search', $event.target.value)"
           @click="$emit('close-menu')"
           type="text"
           name="searchCollections"

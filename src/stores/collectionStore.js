@@ -13,6 +13,7 @@ export const useCollectionStore = defineStore('collection', () => {
     try {
       const { data } = await axios.post(`${URL_express_collections}`, collectionToAdd)
       myCollections.value.push(data)
+      collections.value.push(data)
     } catch (error) {
       console.error('Greška: ', error)
       throw error

@@ -19,7 +19,6 @@ const userCollections = computed(() => {
 
 onMounted(async () => {
   try {
-    console.log(authStore.user?.id)
     const userId = authStore.user?.id
 
     if (!userId) return

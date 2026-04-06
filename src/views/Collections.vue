@@ -3,29 +3,40 @@ import { useCollectionStore } from '@/stores/collectionStore.js'
 import { onMounted, computed } from 'vue'
 import { useToast } from '@/composables/useToast.js'
 
+const props = defineProps({
+  collections: {
+    type: Array,
+    default: null,
+  },
+})
+
 const { showToast } = useToast()
 
 const collectionStore = useCollectionStore()
 
-const firstFiveCollections = computed(() => {
+const displayedCollections = computed(() => {
+  if (props.collections) return props.collections
   return collectionStore.collections.slice(0, 5)
 })
 
 onMounted(async () => {
+  if (props.collections) return
   try {
     await collectionStore.getCollections()
   } catch (error) {
-    showToast('Neuspješna autentifikacija!', 'error')
+    showToast('Neuspješan dohvat kolekcija!', 'error')
   }
 })
 </script>
 
 <template>
   <div class="w-full mx-auto px-4 my-8">
-    <p class="text-[#ce61fe] py-4 text-2xl">Explore existing flashcards</p>
+    <p class="text-[#ce61fe] py-4 text-2xl">
+      {{ collections ? 'Search results' : 'Explore existing flashcards' }}
+    </p>
     <div
       class="flex flex-col mb-4 w-full"
-      v-for="(collection, index) in firstFiveCollections"
+      v-for="(collection, index) in displayedCollections"
       :key="collection._id"
     >
       <div
@@ -50,5 +61,8 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <p v-if="collections && displayedCollections.length === 0" class="text-white/50 px-4">
+      No results
+    </p>
   </div>
 </template>

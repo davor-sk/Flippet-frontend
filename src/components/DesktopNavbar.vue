@@ -8,8 +8,8 @@ const authStore = useAuthStore()
 
 addIcons(FaSearch, RiShutDownLine)
 
-defineProps(['searchInput', 'openProfile', 'openSearch'])
-defineEmits(['toggle-search', 'toggle-profile', 'logout'])
+defineProps(['searchQuery', 'openProfile', 'openSearch'])
+defineEmits(['search', 'toggle-search', 'toggle-profile', 'logout'])
 </script>
 
 <template>
@@ -22,7 +22,8 @@ defineEmits(['toggle-search', 'toggle-profile', 'logout'])
         </span>
 
         <input
-          v-model="searchInput.value"
+          :value="searchQuery"
+          @input="$emit('search', $event.target.value)"
           type="text"
           name="searchCollections"
           class="bg-[#171b29] text-white border-b-4 placeholder:text-white/50 border border-white/10 rounded-2xl p-2 pl-10 w-full h-11 focus-visible:ring-2 ring-white/10"

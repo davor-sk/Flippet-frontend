@@ -1,8 +1,10 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
+import { useSearch } from '@/composables/useSearch'
 import Collections from './Collections.vue'
 
 const authStore = useAuthStore()
+const { searchQuery, searchResults } = useSearch()
 </script>
 
 <template>
@@ -30,7 +32,7 @@ const authStore = useAuthStore()
           <img src="@/assets/images/flippet_banner_image.png" class="w-40 lg:w-1/2 lg:-my-16" />
         </div>
       </div>
-      <Collections />
+      <Collections :collections="searchQuery.length >= 3 ? searchResults : null" />
     </div>
   </div>
 </template>

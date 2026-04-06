@@ -30,7 +30,7 @@ onMounted(async () => {
     <p class="text-[#ce61fe] p-4 text-2xl">My collections</p>
     <div class="flex flex-col" v-for="(collection, index) in myCollections" :key="collection._id">
       <div
-        class="flex items-center w-full rounded-2xl p-4 gap-6"
+        class="flex items-center w-full rounded-2xl p-4 gap-6 mb-4"
         :class="index % 2 == 0 ? 'bg-[#460748]' : 'bg-[#171b29]'"
       >
         <img src="../assets/images/quiz.png" class="w-20" />
