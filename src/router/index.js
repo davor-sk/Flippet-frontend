@@ -31,7 +31,7 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/create',
+      path: '/create/:id?',
       name: 'create',
       component: CreateCollectionView,
     },

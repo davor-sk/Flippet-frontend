@@ -1,14 +1,17 @@
 <script setup>
-import { ref, nextTick, computed } from 'vue'
+import { ref, nextTick, computed, onMounted } from 'vue'
 import CreateFlashcard from '@/components/CreateFlashcard.vue'
 import { useAuthStore } from '@/stores/authStore.js'
 import { useSpeechRecognition } from '@/composables/useSpeechRecognition.js'
 import { useCollectionStore } from '@/stores/collectionStore.js'
 import { useToast } from '@/composables/useToast.js'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const { showToast } = useToast()
 const router = useRouter()
+const route = useRoute()
+
+const isEditing = computed(() => !!route.params.id)
 
 const authStore = useAuthStore()
 const collectionStore = useCollectionStore()
@@ -75,26 +78,53 @@ const saveCollection = async () => {
       !isDescriptionValid.value ||
       cleanedFlashcards.length === 0
     ) {
+      showToast('Molimo ispunite sva polja!', 'error')
       return
     }
     const payload = {
       ...collection.value,
       flashcards: cleanedFlashcards,
     }
-    await collectionStore.addCollection(payload)
-    showToast('Kolekcija uspješno kreirana!', 'success')
-    router.push('/')
+    if (isEditing.value) {
+      await collectionStore.updateCollection(route.params.id, payload)
+      showToast('Kolekcija uspješno ažurirana!', 'success')
+    } else {
+      await collectionStore.addCollection(payload)
+      showToast('Kolekcija uspješno kreirana!', 'success')
+    }
+    router.push('/mycollections')
   } catch (error) {
     showToast('Neuspješna izrada kolekcije!', 'error')
   }
 }
+
+onMounted(async () => {
+  if (isEditing.value) {
+    try {
+      await collectionStore.getCollectionById(route.params.id)
+      const existing = collectionStore.selectedCollection
+      collection.value = {
+        ...existing,
+        flashcards: existing.flashcards.map((card, index) => ({
+          ...card,
+          id: index + 1,
+        })),
+      }
+      counter.value = existing.flashcards.length + 1
+    } catch (error) {
+      showToast('Neuspješan dohvat kolekcije!', 'error')
+    }
+  }
+})
 </script>
 
 <template>
   <form @submit.prevent="saveCollection">
     <div class="flex flex-col items-center mt-8 w-full">
       <div class="w-8/10 flex flex-col">
-        <p class="text-3xl mb-8">Create a new collection</p>
+        <p class="text-3xl mb-8">
+          {{ isEditing ? 'Edit collection' : 'Create a new collection' }}
+        </p>
 
         <div class="mb-10">
           <div class="flex gap-4">
@@ -201,7 +231,7 @@ const saveCollection = async () => {
             type="submit"
             class="rounded-2xl bg-[#02a5f1] px-4 py-3 font-medium text-white transition hover:opacity-90"
           >
-            Save collection
+            {{ isEditing ? 'Save changes' : 'Save collection' }}
           </button>
         </div>
       </div>

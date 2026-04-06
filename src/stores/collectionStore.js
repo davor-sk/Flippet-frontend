@@ -63,6 +63,19 @@ export const useCollectionStore = defineStore('collection', () => {
     }
   }
 
+  const updateCollection = async (collectionId, payload) => {
+    try {
+      const { data } = await axios.patch(`${URL_express_collections}/edit/${collectionId}`, payload)
+      const index = myCollections.value.findIndex((c) => c._id === collectionId)
+      if (index !== -1) {
+        myCollections.value[index] = data
+      }
+    } catch (error) {
+      console.error('Greška: ', error)
+      throw error
+    }
+  }
+
   return {
     collections,
     addCollection,
@@ -72,5 +85,6 @@ export const useCollectionStore = defineStore('collection', () => {
     getCollectionsByUserId,
     myCollections,
     deleteCollection,
+    updateCollection,
   }
 })

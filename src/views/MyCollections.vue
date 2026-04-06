@@ -49,7 +49,7 @@ onMounted(async () => {
             </button>
           </RouterLink>
           <div class="flex mt-2">
-            <RouterLink :to="{ name: 'create' }">
+            <RouterLink :to="{ name: 'create', params: { id: collection._id } }">
               <img
                 src="@/assets/images/edit.png"
                 class="w-10 h-10 mx-2 hover:rounded-full hover:bg-slate-200 p-2 cursor-pointer"
