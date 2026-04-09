@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 
-const URL_express_collections = 'http://localhost:3000/collections'
+const URL_express_collections = `${import.meta.env.VITE_API_URL}/collections`
 
 export const useCollectionStore = defineStore('collection', () => {
   const collections = ref([])

@@ -7,6 +7,8 @@ import CreateCollectionView from '@/views/CreateCollectionView.vue'
 import CollectionsView from '@/views/Collections.vue'
 import SelectedCollectionView from '@/views/SelectedCollectionView.vue'
 import MyCollections from '@/views/MyCollections.vue'
+import { useAuthStore } from '@/stores/authStore'
+import { isTokenExpired } from '@/utils/tokenUtils'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +58,24 @@ const router = createRouter({
       component: MyCollections,
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  if (authStore.token && isTokenExpired(authStore.token)) {
+    authStore.logout()
+    next('/login')
+    return
+  }
+
+  const protectedRoutes = ['create', 'mycollections', 'settings']
+  if (protectedRoutes.includes(to.name) && !authStore.user) {
+    next('/login')
+    return
+  }
+
+  next()
 })
 
 export default router

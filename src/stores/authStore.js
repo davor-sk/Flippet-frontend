@@ -2,17 +2,19 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 
-const URL_express_users = 'http://localhost:3000/users'
+const URL_express_users = `${import.meta.env.VITE_API_URL}/users`
 
 export const useAuthStore = defineStore(
   'auth',
   () => {
     const user = ref(null)
+    const token = ref(null)
 
     const login = async (email, password) => {
       try {
         const { data } = await axios.post(`${URL_express_users}/login`, { email, password })
         user.value = data.user
+        token.value = data.jwt_token
         return data
       } catch (error) {
         console.error('Greška: ', error)
@@ -68,9 +70,10 @@ export const useAuthStore = defineStore(
 
     const logout = () => {
       user.value = null
+      token.value = null
     }
 
-    return { user, login, register, logout, patchUser, deleteUser }
+    return { user, token, login, register, logout, patchUser, deleteUser }
   },
   { persist: true },
 )
